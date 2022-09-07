@@ -1,9 +1,4 @@
 <?php
-$ID = 0;
-$ID++;
-
-$firstName = $lastName = $email = $gender = $age = $editor = "";
-
 if(empty($_POST["firstName"])){
   $error_fn = "*****Please enter an your first name*****";
 }
@@ -40,12 +35,10 @@ if(empty($_POST["editor"])){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registration Page</title>
   <style>
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
-    </style>
+    table, th, td {
+  border: 1px solid black;
+}
+  </style>
 </head>
 <body>
   <h2>Register</h2>
@@ -61,7 +54,6 @@ if(empty($_POST["editor"])){
     E-mail: <input type="text" name="email" id="email">
     <br><br>
     <span><?php echo $error_email; ?></span>
-    <span><?php echo $error_email_invalid; ?></span>
     <br><br>
     Gender:
     <select name="gender" id="gender">
@@ -86,7 +78,7 @@ if(empty($_POST["editor"])){
     <span><?php echo $error_editor; ?></span>
     <br><br>  
     <input type="submit" name="submit" value="Submit">  
-  </form>
+  </form>  
 </body>
 </html>
 
@@ -105,24 +97,6 @@ $sql = "SELECT * FROM users;";
 $result = mysqli_query($conn, $sql);
 $resultCheck = mysqli_num_rows($result);
 
-if ($resultCheck > 0){
-  echo "<h2>Your Input:</h2>";
-  echo "<h3>firstName</h3>";
-  echo "<h3>lastName</h3>";
-  echo "<h3>email</h3>";
-  echo "<h3>gender</h3>";
-  echo "<h3>lastName</h3>";
-  echo "<h3>lastName</h3>";
-  while ($row = mysqli_fetch_assoc($result)){
-    echo $row['firstName']."<br>";
-    echo $row['lastName']."<br>";
-    echo $row['email']."<br>";
-    echo $row['lastName']."<br>";
-    echo $row['lastName']."<br>";
-    echo $row['lastName']."<br>";
-  }
-}
-
 	if($conn->connect_error){
 		echo "$conn->connect_error";
 		die("Connection Failed : ". $conn->connect_error);
@@ -131,7 +105,26 @@ if ($resultCheck > 0){
 		$stmt->bind_param("sssssi", $firstName, $lastName, $email, $gender, $age, $editor);
 		$execval = $stmt->execute();
 		$stmt->close();
-		$conn->close();
 	}
 
+  if ($resultCheck > 0){
+    echo "<h2>Your Input:</h2>";
+    echo "<table><tr><th>firstName</th><th>lastName</th><th>email</th><th>gender</th><th>age</th><th>editor</th></tr>";
+    while ($row = mysqli_fetch_assoc($result)){
+      echo '<tr><td>';
+      echo $row['firstName'];
+      echo '</td><td>';
+      echo $row['lastName'];
+      echo '</td><td>';
+      echo $row['email'];
+      echo '</td><td>';
+      echo $row['gender'];
+      echo '</td><td>';
+      echo $row['age'];
+      echo '</td><td>';
+      echo $row['editor'];
+      echo '</td></tr></table>';
+    }
+  }
+  mysqli_close($conn);
 ?>
